@@ -31,6 +31,16 @@ export default {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          50: "#fef2f2",
+          100: "#fee2e2",
+          200: "#fecaca",
+          300: "#fca5a5",
+          400: "#f87171",
+          500: "#ef4444",
+          600: "#dc2626",
+          700: "#b91c1c",
+          800: "#991b1b",
+          900: "#7f1d1d",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -79,6 +89,8 @@ export default {
       boxShadow: {
         'subtle': '0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.03)',
         'glass': '0 8px 32px rgba(0, 0, 0, 0.06)',
+        'red': '0 4px 14px rgba(220, 38, 38, 0.15)',
+        'red-glow': '0 0 20px rgba(220, 38, 38, 0.2)',
       },
       keyframes: {
         "accordion-down": {
