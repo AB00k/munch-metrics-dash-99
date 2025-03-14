@@ -17,7 +17,7 @@ const ConnectedPlatforms: React.FC = () => {
         {platforms.map((platform, index) => (
           <div
             key={index}
-            className={`w-10 h-10 rounded-full flex items-center justify-center cursor-pointer transition-transform hover:scale-110 ${
+            className={`w-8 h-8 rounded-full flex items-center justify-center cursor-pointer transition-transform hover:scale-110 ${
               platform.isAdd ? 'border-2 border-dashed border-red-500' : ''
             }`}
             style={{ backgroundColor: platform.color }}
@@ -29,7 +29,7 @@ const ConnectedPlatforms: React.FC = () => {
             ) : (
               <div className="w-full h-full rounded-full flex items-center justify-center">
                 {index === 0 && (
-                  <div className="w-10 h-10 rounded-full overflow-hidden">
+                  <div className="w-8 h-8 rounded-full overflow-hidden">
                     <img 
                       src={platform.imagePath} 
                       alt={platform.name} 

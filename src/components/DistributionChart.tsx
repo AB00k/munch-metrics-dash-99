@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
@@ -23,7 +22,7 @@ interface DistributionChartProps {
   index: number;
 }
 
-const COLORS = ['#555555', '#777777', '#999999', '#AAAAAA', '#CCCCCC', '#DDDDDD'];
+const COLORS = ['#555555', '#FF5800', '#51B851', '#00CCBC', '#8B5CF6', '#DDDDDD'];
 
 const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
@@ -43,7 +42,6 @@ const DistributionChart: React.FC<DistributionChartProps> = ({ title, data, inde
   const [showDetailedView, setShowDetailedView] = useState(false);
   const [activeTab, setActiveTab] = useState("orders");
   
-  // Prepare data with previous period, discounts, and ad spend
   const comparisonData = data.map(item => ({
     ...item,
     previousOrders: item.previousOrders || Math.floor(item.orders * (Math.random() * (0.7 - 1.3) + 0.7)),
@@ -55,7 +53,7 @@ const DistributionChart: React.FC<DistributionChartProps> = ({ title, data, inde
   }));
   
   return (
-    <Card className={`animate-blur-in ${delayClass} transition-all duration-300 hover:shadow-glass h-full bg-gradient-to-br from-background to-accent/5`}>
+    <Card className={`animate-blur-in ${delayClass} transition-all duration-300 hover:shadow-glass h-full bg-background`}>
       <CardHeader className="pb-2 flex flex-row items-center justify-between">
         <CardTitle className="text-lg font-medium">{title}</CardTitle>
         <Button 
