@@ -56,25 +56,15 @@ const KpiCard: React.FC<KpiCardProps> = ({
   const isPositive = change >= 0;
   const TrendIcon = isPositive ? TrendingUp : TrendingDown;
   const delayClass = `delay-${(index % 5) * 100}`;
-  
-  const gradientClasses = [
-    "from-background to-secondary/30",
-    "from-background to-secondary/40",
-    "from-background to-secondary/30",
-    "from-background to-secondary/40",
-    "from-background to-secondary/30",
-  ];
-  
-  const gradientClass = gradientClasses[index % gradientClasses.length];
 
   return (
-    <Card className={`overflow-hidden animate-scale-up ${delayClass} transition-all duration-300 hover:shadow-glass bg-gradient-to-br ${gradientClass} border border-border/50`}>
+    <Card className={`overflow-hidden animate-scale-up ${delayClass} transition-all duration-300 hover:shadow-subtle bg-white border border-border/50`}>
       <CardContent className="p-6">
         <div className="flex items-center justify-between mb-3">
           <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
             {title}
           </span>
-          <div className="p-1.5 rounded-full bg-secondary">
+          <div className="p-1.5 rounded-full bg-secondary/30">
             <Icon className="w-3.5 h-3.5 text-foreground" />
           </div>
         </div>

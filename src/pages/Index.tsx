@@ -1,6 +1,7 @@
 
-import React, { useState } from "react";
+import React from "react";
 import Header from "@/components/Header";
+import NavigationBar from "@/components/NavigationBar";
 import KpiCard from "@/components/KpiCard";
 import OrderMetrics from "@/components/OrderMetrics";
 import DistributionChart from "@/components/DistributionChart";
@@ -8,12 +9,14 @@ import { dashboardData } from "@/lib/data";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background bg-[radial-gradient(ellipse_at_top_right,rgba(220,38,38,0.05),transparent_40%)]">
+    <div className="min-h-screen bg-background">
       <div className="container max-w-7xl mx-auto px-4 sm:px-6">
         <Header />
         
-        <main className="py-8">
-          <div className="space-y-10">
+        <NavigationBar />
+        
+        <main className="py-6">
+          <div className="space-y-8">
             {/* Order Metrics */}
             <OrderMetrics 
               total={dashboardData.monthlyOrders.total}

@@ -47,7 +47,7 @@ const OrderMetrics: React.FC<OrderMetricsProps> = ({
   const Icon = currentMetric.icon;
 
   return (
-    <Card className="animate-fade-in transition-all duration-300 hover:shadow-glass overflow-hidden bg-gradient-to-br from-background via-background to-accent/10">
+    <Card className="animate-fade-in transition-all duration-300 hover:shadow-subtle overflow-hidden border border-border/50">
       <CardContent className="p-6">
         <div className="flex flex-col md:flex-row gap-8 items-center justify-between">
           <div className="flex-1 w-full">
@@ -84,12 +84,16 @@ const OrderMetrics: React.FC<OrderMetricsProps> = ({
                   <ArrowUpRight className="w-3 h-3 text-foreground" />
                 </div>
               </div>
-              <Progress value={currentMetric.percentToTarget} className="h-2.5 bg-secondary" />
+              <Progress 
+                value={currentMetric.percentToTarget} 
+                className="h-2.5 bg-secondary/50" 
+                indicatorClassName="bg-black" 
+              />
             </div>
           </div>
           
           <div className="grid grid-cols-2 gap-6 w-full md:w-auto">
-            <div className="flex flex-col items-center text-center p-4 bg-secondary/80 rounded-lg border border-border/30 shadow-subtle">
+            <div className="flex flex-col items-center text-center p-4 bg-secondary/10 rounded-lg border border-border/30 shadow-subtle">
               <div className="p-2 rounded-full bg-secondary/50 mb-2">
                 <TrendingUp className="w-4 h-4 text-foreground" />
               </div>
@@ -102,7 +106,7 @@ const OrderMetrics: React.FC<OrderMetricsProps> = ({
               </p>
             </div>
             
-            <div className="flex flex-col items-center text-center p-4 bg-secondary/80 rounded-lg border border-border/30 shadow-subtle relative">
+            <div className="flex flex-col items-center text-center p-4 bg-secondary/10 rounded-lg border border-border/30 shadow-subtle relative">
               <div className="p-2 rounded-full bg-secondary/50 mb-2">
                 <Target className="w-4 h-4 text-foreground" />
               </div>
