@@ -15,14 +15,14 @@ const Header: React.FC = () => {
     <header className="animate-slide-up py-6 border-b border-border/40">
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div className="flex items-center gap-3">
-          <div className="bg-primary/10 p-2.5 rounded-md">
-            <UtensilsCrossed className="w-5 h-5 text-primary" />
+          <div className="bg-secondary/80 p-2.5 rounded-md">
+            <UtensilsCrossed className="w-5 h-5 text-foreground" />
           </div>
           <h1 className="text-xl font-medium tracking-tight">Restaurant Dashboard</h1>
         </div>
         
         <div className="flex flex-col md:flex-row items-start md:items-center gap-3">
-          <div className="flex items-center gap-1.5 text-primary/80">
+          <div className="flex items-center gap-1.5 text-muted-foreground">
             <Calendar className="w-4 h-4" />
             <span className="text-sm font-medium">{dateRange.start} - {dateRange.end}</span>
           </div>

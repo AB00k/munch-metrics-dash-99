@@ -58,11 +58,11 @@ const KpiCard: React.FC<KpiCardProps> = ({
   const delayClass = `delay-${(index % 5) * 100}`;
   
   const gradientClasses = [
-    "from-background to-primary/5",
-    "from-background to-blue-500/5",
-    "from-background to-green-500/5",
-    "from-background to-yellow-500/5",
-    "from-background to-purple-500/5",
+    "from-background to-secondary/30",
+    "from-background to-secondary/40",
+    "from-background to-secondary/30",
+    "from-background to-secondary/40",
+    "from-background to-secondary/30",
   ];
   
   const gradientClass = gradientClasses[index % gradientClasses.length];
@@ -75,7 +75,7 @@ const KpiCard: React.FC<KpiCardProps> = ({
             {title}
           </span>
           <div className="p-1.5 rounded-full bg-secondary">
-            <Icon className="w-3.5 h-3.5 text-primary" />
+            <Icon className="w-3.5 h-3.5 text-foreground" />
           </div>
         </div>
         

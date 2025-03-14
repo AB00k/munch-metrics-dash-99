@@ -3,8 +3,9 @@ import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, BarChart3 } from "lucide-react";
+import { ChevronRight, BarChart3, Percent, Megaphone } from "lucide-react";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface DistributionItem {
   name: string;
@@ -12,6 +13,8 @@ interface DistributionItem {
   percentage: number;
   previousOrders?: number;
   growth?: number;
+  discount?: number;
+  adSpend?: number;
 }
 
 interface DistributionChartProps {
@@ -20,7 +23,7 @@ interface DistributionChartProps {
   index: number;
 }
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d'];
+const COLORS = ['#555555', '#777777', '#999999', '#AAAAAA', '#CCCCCC', '#DDDDDD'];
 
 const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
@@ -38,14 +41,17 @@ const CustomTooltip = ({ active, payload }: any) => {
 const DistributionChart: React.FC<DistributionChartProps> = ({ title, data, index }) => {
   const delayClass = `delay-${index * 200}`;
   const [showDetailedView, setShowDetailedView] = useState(false);
+  const [activeTab, setActiveTab] = useState("orders");
   
-  // Prepare data with previous period
+  // Prepare data with previous period, discounts, and ad spend
   const comparisonData = data.map(item => ({
     ...item,
     previousOrders: item.previousOrders || Math.floor(item.orders * (Math.random() * (0.7 - 1.3) + 0.7)),
     growth: item.growth || parseFloat(((item.previousOrders ? 
       ((item.orders - item.previousOrders) / item.previousOrders) * 100 : 
-      Math.random() * 30 * (Math.random() > 0.5 ? 1 : -1))).toFixed(1))
+      Math.random() * 30 * (Math.random() > 0.5 ? 1 : -1))).toFixed(1)),
+    discount: item.discount || parseFloat((Math.random() * 15).toFixed(1)),
+    adSpend: item.adSpend || parseFloat((Math.random() * 20 + 5).toFixed(1))
   }));
   
   return (
@@ -55,7 +61,7 @@ const DistributionChart: React.FC<DistributionChartProps> = ({ title, data, inde
         <Button 
           variant="ghost" 
           size="sm" 
-          className="h-8 gap-1 text-xs font-normal text-muted-foreground hover:text-primary hover:bg-primary/5"
+          className="h-8 gap-1 text-xs font-normal text-muted-foreground hover:text-foreground hover:bg-secondary/30"
           onClick={() => setShowDetailedView(!showDetailedView)}
         >
           {showDetailedView ? "Chart View" : "Detailed View"}
@@ -104,28 +110,95 @@ const DistributionChart: React.FC<DistributionChartProps> = ({ title, data, inde
           </>
         ) : (
           <div className="overflow-hidden rounded-md border shadow-sm border-border/50">
-            <Table>
-              <TableHeader className="bg-muted/30">
-                <TableRow>
-                  <TableHead className="w-[120px] text-xs">Platform</TableHead>
-                  <TableHead className="text-xs text-right">Mar 1-Mar 31</TableHead>
-                  <TableHead className="text-xs text-right">Feb 1-Feb 28</TableHead>
-                  <TableHead className="text-xs text-right">% Growth</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {comparisonData.map((item, idx) => (
-                  <TableRow key={idx}>
-                    <TableCell className="font-medium text-xs">{item.name}</TableCell>
-                    <TableCell className="text-right text-xs">{item.orders}</TableCell>
-                    <TableCell className="text-right text-xs">{item.previousOrders}</TableCell>
-                    <TableCell className={`text-right text-xs ${item.growth && item.growth >= 0 ? 'text-success' : 'text-destructive'}`}>
-                      {item.growth && item.growth >= 0 ? '+' : ''}{item.growth}%
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+              <TabsList className="grid w-full grid-cols-3 bg-background/80 border-b p-0">
+                <TabsTrigger value="orders" className="text-xs py-1.5">Orders</TabsTrigger>
+                <TabsTrigger value="discount" className="text-xs py-1.5">
+                  <Percent className="h-3 w-3 mr-1" />
+                  Discount
+                </TabsTrigger>
+                <TabsTrigger value="adspend" className="text-xs py-1.5">
+                  <Megaphone className="h-3 w-3 mr-1" />
+                  Ad Spend
+                </TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="orders" className="m-0">
+                <Table>
+                  <TableHeader className="bg-muted/30">
+                    <TableRow>
+                      <TableHead className="w-[120px] text-xs">Platform</TableHead>
+                      <TableHead className="text-xs text-right">Mar 1-Mar 31</TableHead>
+                      <TableHead className="text-xs text-right">Feb 1-Feb 28</TableHead>
+                      <TableHead className="text-xs text-right">% Growth</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {comparisonData.map((item, idx) => (
+                      <TableRow key={idx}>
+                        <TableCell className="font-medium text-xs">{item.name}</TableCell>
+                        <TableCell className="text-right text-xs">{item.orders}</TableCell>
+                        <TableCell className="text-right text-xs">{item.previousOrders}</TableCell>
+                        <TableCell className={`text-right text-xs ${item.growth && item.growth >= 0 ? 'text-success' : 'text-destructive'}`}>
+                          {item.growth && item.growth >= 0 ? '+' : ''}{item.growth}%
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TabsContent>
+              
+              <TabsContent value="discount" className="m-0">
+                <Table>
+                  <TableHeader className="bg-muted/30">
+                    <TableRow>
+                      <TableHead className="w-[120px] text-xs">{title.includes("Platform") ? "Platform" : "Location"}</TableHead>
+                      <TableHead className="text-xs text-right">Orders</TableHead>
+                      <TableHead className="text-xs text-right">Discount %</TableHead>
+                      <TableHead className="text-xs text-right">Discount Amt</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {comparisonData.map((item, idx) => (
+                      <TableRow key={idx}>
+                        <TableCell className="font-medium text-xs">{item.name}</TableCell>
+                        <TableCell className="text-right text-xs">{item.orders}</TableCell>
+                        <TableCell className="text-right text-xs">{item.discount}%</TableCell>
+                        <TableCell className="text-right text-xs">
+                          AED {Math.round(item.orders * 85.56 * (item.discount! / 100))}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TabsContent>
+              
+              <TabsContent value="adspend" className="m-0">
+                <Table>
+                  <TableHeader className="bg-muted/30">
+                    <TableRow>
+                      <TableHead className="w-[120px] text-xs">{title.includes("Platform") ? "Platform" : "Location"}</TableHead>
+                      <TableHead className="text-xs text-right">Orders</TableHead>
+                      <TableHead className="text-xs text-right">Ad Spend %</TableHead>
+                      <TableHead className="text-xs text-right">Ad Spend Amt</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {comparisonData.map((item, idx) => (
+                      <TableRow key={idx}>
+                        <TableCell className="font-medium text-xs">{item.name}</TableCell>
+                        <TableCell className="text-right text-xs">{item.orders}</TableCell>
+                        <TableCell className="text-right text-xs">{item.adSpend}%</TableCell>
+                        <TableCell className="text-right text-xs">
+                          AED {Math.round(item.orders * 85.56 * (item.adSpend! / 100))}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TabsContent>
+            </Tabs>
+            
             <div className="w-full px-4 py-2.5 bg-background/50 border-t border-border/30">
               <div className="flex flex-wrap gap-2 mt-2">
                 {comparisonData.map((item, idx) => (
