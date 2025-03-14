@@ -56,18 +56,30 @@ const KpiCard: React.FC<KpiCardProps> = ({
   const isPositive = change >= 0;
   const TrendIcon = isPositive ? TrendingUp : TrendingDown;
   const delayClass = `delay-${(index % 5) * 100}`;
+  
+  const gradientClasses = [
+    "from-background to-primary/5",
+    "from-background to-blue-500/5",
+    "from-background to-green-500/5",
+    "from-background to-yellow-500/5",
+    "from-background to-purple-500/5",
+  ];
+  
+  const gradientClass = gradientClasses[index % gradientClasses.length];
 
   return (
-    <Card className={`overflow-hidden animate-scale-up ${delayClass} transition-all duration-300 hover:shadow-glass`}>
+    <Card className={`overflow-hidden animate-scale-up ${delayClass} transition-all duration-300 hover:shadow-glass bg-gradient-to-br ${gradientClass} border border-border/50`}>
       <CardContent className="p-6">
         <div className="flex items-center justify-between mb-3">
           <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
             {title}
           </span>
-          <Icon className="w-4 h-4 text-muted-foreground" />
+          <div className="p-1.5 rounded-full bg-secondary">
+            <Icon className="w-3.5 h-3.5 text-primary" />
+          </div>
         </div>
         
-        <div className="flex items-baseline justify-between">
+        <div className="flex items-baseline justify-between mt-2">
           <div className="text-2xl font-semibold">
             <AnimatedCounter 
               value={value} 
@@ -77,7 +89,7 @@ const KpiCard: React.FC<KpiCardProps> = ({
             />
           </div>
           
-          <div className={`flex items-center ${isPositive ? 'text-success' : 'text-destructive'}`}>
+          <div className={`flex items-center ${isPositive ? 'text-success' : 'text-destructive'} px-2 py-0.5 rounded-full ${isPositive ? 'bg-success/10' : 'bg-destructive/10'}`}>
             <TrendIcon className="w-3 h-3 mr-1" />
             <span className="text-xs font-medium">
               {isPositive ? '+' : ''}{change}%

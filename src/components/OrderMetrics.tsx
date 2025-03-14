@@ -2,7 +2,7 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Target, TrendingUp, Package } from "lucide-react";
+import { Target, TrendingUp, Package, ArrowUpRight } from "lucide-react";
 import AnimatedCounter from "./AnimatedCounter";
 
 interface OrderMetricsProps {
@@ -19,12 +19,12 @@ const OrderMetrics: React.FC<OrderMetricsProps> = ({
   percentToTarget
 }) => {
   return (
-    <Card className="animate-fade-in transition-all duration-300 hover:shadow-glass overflow-hidden">
+    <Card className="animate-fade-in transition-all duration-300 hover:shadow-glass overflow-hidden bg-gradient-to-br from-background via-background to-accent/10">
       <CardContent className="p-6">
         <div className="flex flex-col md:flex-row gap-8 items-center justify-between">
           <div className="flex-1 w-full">
             <div className="h-16 flex items-center gap-3">
-              <div className="bg-primary/10 p-3 rounded-full">
+              <div className="bg-primary/10 p-3 rounded-full shadow-red">
                 <Package className="w-6 h-6 text-primary" />
               </div>
               <div>
@@ -35,18 +35,21 @@ const OrderMetrics: React.FC<OrderMetricsProps> = ({
               </div>
             </div>
             
-            <div className="mt-4">
+            <div className="mt-6 mb-2">
               <div className="flex justify-between items-center mb-2">
                 <span className="text-xs text-muted-foreground">Progress to target</span>
-                <span className="text-xs font-medium">{percentToTarget}%</span>
+                <div className="flex items-center gap-1">
+                  <span className="text-xs font-medium">{percentToTarget}%</span>
+                  <ArrowUpRight className="w-3 h-3 text-primary" />
+                </div>
               </div>
-              <Progress value={percentToTarget} className="h-2" />
+              <Progress value={percentToTarget} className="h-2.5 bg-secondary" />
             </div>
           </div>
           
           <div className="grid grid-cols-2 gap-6 w-full md:w-auto">
-            <div className="flex flex-col items-center text-center p-4 bg-secondary/50 rounded-lg">
-              <div className="p-2 rounded-full bg-primary/10 mb-2">
+            <div className="flex flex-col items-center text-center p-4 bg-secondary/80 rounded-lg border border-primary/10 shadow-subtle">
+              <div className="p-2 rounded-full bg-primary/20 mb-2 shadow-red-glow">
                 <TrendingUp className="w-4 h-4 text-primary" />
               </div>
               <p className="text-xs text-muted-foreground mb-1">Projected</p>
@@ -55,8 +58,8 @@ const OrderMetrics: React.FC<OrderMetricsProps> = ({
               </p>
             </div>
             
-            <div className="flex flex-col items-center text-center p-4 bg-secondary/50 rounded-lg">
-              <div className="p-2 rounded-full bg-primary/10 mb-2">
+            <div className="flex flex-col items-center text-center p-4 bg-secondary/80 rounded-lg border border-primary/10 shadow-subtle">
+              <div className="p-2 rounded-full bg-primary/20 mb-2 shadow-red-glow">
                 <Target className="w-4 h-4 text-primary" />
               </div>
               <p className="text-xs text-muted-foreground mb-1">Target</p>
