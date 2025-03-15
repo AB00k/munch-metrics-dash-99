@@ -31,7 +31,7 @@ const Index = () => {
                 <span className="inline-block w-2 h-2 rounded-full bg-primary mr-2"></span>
                 Key Performance Indicators
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {dashboardData.kpis.map((kpi, index) => (
                   <KpiCard
                     key={index}
@@ -59,11 +59,15 @@ const Index = () => {
                   title="Orders by Platform" 
                   data={dashboardData.platforms}
                   index={0}
+                  chartType="platform"
                 />
                 <DistributionChart 
                   title="Orders by Location" 
                   data={dashboardData.locations}
+                  secondaryData={dashboardData.brands}
                   index={1}
+                  chartType="location"
+                  showSelector={true}
                 />
               </div>
             </div>

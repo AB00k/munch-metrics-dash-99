@@ -41,12 +41,6 @@ export const dashboardData = {
       icon: "user-plus"
     },
     {
-      title: "Old Customers",
-      value: 1116,
-      change: 5.3,
-      icon: "users"
-    },
-    {
       title: "Avg Basket Value",
       value: 85.56,
       change: 3.7,
@@ -67,12 +61,6 @@ export const dashboardData = {
       change: 4.6,
       icon: "shopping-cart",
       suffix: "%"
-    },
-    {
-      title: "Cancelled Orders",
-      value: 87,
-      change: -2.3,
-      icon: "x-circle"
     }
   ],
   platforms: [
@@ -133,6 +121,36 @@ export const dashboardData = {
       percentage: 16.2,
       previousOrders: 238,
       growth: -0.8
+    }
+  ],
+  brands: [
+    { 
+      name: "Brand A", 
+      orders: 624, 
+      percentage: 42.8,
+      previousOrders: 587,
+      growth: 6.3
+    },
+    { 
+      name: "Brand B", 
+      orders: 456, 
+      percentage: 31.3,
+      previousOrders: 409,
+      growth: 11.5
+    },
+    { 
+      name: "Brand C", 
+      orders: 278, 
+      percentage: 19.1,
+      previousOrders: 268,
+      growth: 3.7
+    },
+    { 
+      name: "Brand D", 
+      orders: 100, 
+      percentage: 6.8,
+      previousOrders: 88,
+      growth: 13.6
     }
   ]
 };

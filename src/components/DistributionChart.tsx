@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
@@ -5,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronRight, BarChart3, Percent, Megaphone } from "lucide-react";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface DistributionItem {
   name: string;
@@ -19,10 +21,13 @@ interface DistributionItem {
 interface DistributionChartProps {
   title: string;
   data: DistributionItem[];
+  secondaryData?: DistributionItem[];
   index: number;
+  chartType?: 'platform' | 'location';
+  showSelector?: boolean;
 }
 
-const COLORS = ['#555555', '#FF5800', '#51B851', '#00CCBC', '#8B5CF6', '#DDDDDD'];
+const COLORS = ['#8B5CF6', '#FF5800', '#51B851', '#00CCBC', '#555555', '#DDDDDD'];
 
 const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
@@ -37,12 +42,22 @@ const CustomTooltip = ({ active, payload }: any) => {
   return null;
 };
 
-const DistributionChart: React.FC<DistributionChartProps> = ({ title, data, index }) => {
+const DistributionChart: React.FC<DistributionChartProps> = ({ 
+  title, 
+  data, 
+  secondaryData,
+  index,
+  chartType = 'platform',
+  showSelector = false
+}) => {
   const delayClass = `delay-${index * 200}`;
   const [showDetailedView, setShowDetailedView] = useState(false);
   const [activeTab, setActiveTab] = useState("orders");
+  const [selectedDataType, setSelectedDataType] = useState<'location' | 'brand'>('location');
   
-  const comparisonData = data.map(item => ({
+  const currentData = selectedDataType === 'brand' && secondaryData ? secondaryData : data;
+  
+  const comparisonData = currentData.map(item => ({
     ...item,
     previousOrders: item.previousOrders || Math.floor(item.orders * (Math.random() * (0.7 - 1.3) + 0.7)),
     growth: item.growth || parseFloat(((item.previousOrders ? 
@@ -55,7 +70,23 @@ const DistributionChart: React.FC<DistributionChartProps> = ({ title, data, inde
   return (
     <Card className={`animate-blur-in ${delayClass} transition-all duration-300 hover:shadow-glass h-full bg-background`}>
       <CardHeader className="pb-2 flex flex-row items-center justify-between">
-        <CardTitle className="text-lg font-medium">{title}</CardTitle>
+        <div className="flex items-center gap-4 flex-1">
+          <CardTitle className="text-lg font-medium">{title}</CardTitle>
+          {showSelector && (
+            <Select 
+              value={selectedDataType} 
+              onValueChange={(value) => setSelectedDataType(value as 'location' | 'brand')}
+            >
+              <SelectTrigger className="h-8 w-[120px] text-xs">
+                <SelectValue placeholder="View by" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="location">Location</SelectItem>
+                <SelectItem value="brand">Brand</SelectItem>
+              </SelectContent>
+            </Select>
+          )}
+        </div>
         <Button 
           variant="ghost" 
           size="sm" 
@@ -73,20 +104,22 @@ const DistributionChart: React.FC<DistributionChartProps> = ({ title, data, inde
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
-                    data={data}
+                    data={currentData}
                     cx="50%"
                     cy="50%"
-                    innerRadius={60}
-                    outerRadius={80}
-                    paddingAngle={2}
+                    innerRadius={58}
+                    outerRadius={90}
+                    paddingAngle={3}
                     dataKey="orders"
                     labelLine={false}
+                    strokeWidth={3}
                   >
-                    {data.map((entry, index) => (
+                    {currentData.map((entry, index) => (
                       <Cell 
                         key={`cell-${index}`} 
                         fill={COLORS[index % COLORS.length]} 
                         className="transition-opacity duration-300 hover:opacity-80"
+                        stroke="#ffffff"
                       />
                     ))}
                   </Pie>
@@ -95,7 +128,7 @@ const DistributionChart: React.FC<DistributionChartProps> = ({ title, data, inde
               </ResponsiveContainer>
             </div>
             <div className="grid grid-cols-2 gap-2 mt-4">
-              {data.map((item, idx) => (
+              {currentData.map((item, idx) => (
                 <div key={idx} className="flex items-center gap-2">
                   <div 
                     className="w-3 h-3 rounded-sm" 
@@ -125,7 +158,9 @@ const DistributionChart: React.FC<DistributionChartProps> = ({ title, data, inde
                 <Table>
                   <TableHeader className="bg-muted/30">
                     <TableRow>
-                      <TableHead className="w-[120px] text-xs">Platform</TableHead>
+                      <TableHead className="w-[120px] text-xs">
+                        {chartType === 'platform' ? 'Platform' : selectedDataType === 'brand' ? 'Brand' : 'Location'}
+                      </TableHead>
                       <TableHead className="text-xs text-right">Mar 1-Mar 31</TableHead>
                       <TableHead className="text-xs text-right">Feb 1-Feb 28</TableHead>
                       <TableHead className="text-xs text-right">% Growth</TableHead>
@@ -150,7 +185,9 @@ const DistributionChart: React.FC<DistributionChartProps> = ({ title, data, inde
                 <Table>
                   <TableHeader className="bg-muted/30">
                     <TableRow>
-                      <TableHead className="w-[120px] text-xs">{title.includes("Platform") ? "Platform" : "Location"}</TableHead>
+                      <TableHead className="w-[120px] text-xs">
+                        {chartType === 'platform' ? 'Platform' : selectedDataType === 'brand' ? 'Brand' : 'Location'}
+                      </TableHead>
                       <TableHead className="text-xs text-right">Orders</TableHead>
                       <TableHead className="text-xs text-right">Discount %</TableHead>
                       <TableHead className="text-xs text-right">Discount Amt</TableHead>
@@ -175,7 +212,9 @@ const DistributionChart: React.FC<DistributionChartProps> = ({ title, data, inde
                 <Table>
                   <TableHeader className="bg-muted/30">
                     <TableRow>
-                      <TableHead className="w-[120px] text-xs">{title.includes("Platform") ? "Platform" : "Location"}</TableHead>
+                      <TableHead className="w-[120px] text-xs">
+                        {chartType === 'platform' ? 'Platform' : selectedDataType === 'brand' ? 'Brand' : 'Location'}
+                      </TableHead>
                       <TableHead className="text-xs text-right">Orders</TableHead>
                       <TableHead className="text-xs text-right">Ad Spend %</TableHead>
                       <TableHead className="text-xs text-right">Ad Spend Amt</TableHead>
