@@ -12,17 +12,17 @@ const ConnectedPlatforms: React.FC = () => {
 
   return (
     <div className="flex items-center gap-2">
-      <div className="flex -space-x-2">
+      <div className="flex space-x-2">
         {platforms.map((platform, index) => (
           <div
             key={index}
-            className={`w-8 h-8 rounded-full flex items-center justify-center cursor-pointer transition-transform hover:scale-110 border-2 border-white ${
-              platform.isAdd ? 'border-2 border-dashed border-gray-300' : ''
+            className={`w-8 h-8 rounded-full flex items-center justify-center cursor-pointer transition-transform hover:scale-110 ${
+              platform.isAdd ? 'border-2 border-dashed border-red-500' : ''
             }`}
-            style={{ backgroundColor: platform.color, zIndex: 5 - index }}
+            style={{ backgroundColor: platform.color }}
           >
             {platform.isAdd ? (
-              <span className="text-gray-400 text-xl">+</span>
+              <span className="text-red-500 text-xl">+</span>
             ) : platform.text ? (
               <span className="text-white text-xs font-bold">{platform.text}</span>
             ) : (
