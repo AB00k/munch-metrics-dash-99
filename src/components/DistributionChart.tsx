@@ -5,7 +5,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, BarChart3, Percent, Megaphone } from "lucide-react";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface DistributionItem {
@@ -52,7 +52,7 @@ const DistributionChart: React.FC<DistributionChartProps> = ({
 }) => {
   const delayClass = `delay-${index * 200}`;
   const [showDetailedView, setShowDetailedView] = useState(false);
-  const [activeTab, setActiveTab] = useState("orders");
+  const [showMarketingMetrics, setShowMarketingMetrics] = useState(false);
   const [selectedDataType, setSelectedDataType] = useState<'location' | 'brand'>('location');
   
   const currentData = selectedDataType === 'brand' && secondaryData ? secondaryData : data;
@@ -141,100 +141,71 @@ const DistributionChart: React.FC<DistributionChartProps> = ({
           </>
         ) : (
           <div className="overflow-hidden rounded-md border shadow-sm border-border/50">
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-3 bg-background/80 border-b p-0">
-                <TabsTrigger value="orders" className="text-xs py-1.5">Orders</TabsTrigger>
-                <TabsTrigger value="discount" className="text-xs py-1.5">
-                  <Percent className="h-3 w-3 mr-1" />
-                  Discount
-                </TabsTrigger>
-                <TabsTrigger value="adspend" className="text-xs py-1.5">
-                  <Megaphone className="h-3 w-3 mr-1" />
-                  Ad Spend
-                </TabsTrigger>
-              </TabsList>
-              
-              <TabsContent value="orders" className="m-0">
-                <Table>
-                  <TableHeader className="bg-muted/30">
-                    <TableRow>
-                      <TableHead className="w-[120px] text-xs">
-                        {chartType === 'platform' ? 'Platform' : selectedDataType === 'brand' ? 'Brand' : 'Location'}
+            <div className="w-full bg-background/80 border-b p-2 flex items-center justify-between">
+              <div className="text-xs font-medium">Orders Distribution</div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted-foreground">Marketing Metrics</span>
+                <Switch 
+                  checked={showMarketingMetrics}
+                  onCheckedChange={setShowMarketingMetrics}
+                  size="sm"
+                  className="h-5"
+                />
+              </div>
+            </div>
+            
+            <Table>
+              <TableHeader className="bg-muted/30">
+                <TableRow>
+                  <TableHead className="w-[120px] text-xs">
+                    {chartType === 'platform' ? 'Platform' : selectedDataType === 'brand' ? 'Brand' : 'Location'}
+                  </TableHead>
+                  <TableHead className="text-xs text-right">Mar 1-Mar 31</TableHead>
+                  <TableHead className="text-xs text-right">Feb 1-Feb 28</TableHead>
+                  <TableHead className="text-xs text-right">% Growth</TableHead>
+                  {showMarketingMetrics && (
+                    <>
+                      <TableHead className="text-xs text-right">
+                        <Percent className="h-3 w-3 inline mr-1" />
+                        Discount
                       </TableHead>
-                      <TableHead className="text-xs text-right">Mar 1-Mar 31</TableHead>
-                      <TableHead className="text-xs text-right">Feb 1-Feb 28</TableHead>
-                      <TableHead className="text-xs text-right">% Growth</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {comparisonData.map((item, idx) => (
-                      <TableRow key={idx}>
-                        <TableCell className="font-medium text-xs">{item.name}</TableCell>
-                        <TableCell className="text-right text-xs">{item.orders}</TableCell>
-                        <TableCell className="text-right text-xs">{item.previousOrders}</TableCell>
-                        <TableCell className={`text-right text-xs ${item.growth && item.growth >= 0 ? 'text-success' : 'text-destructive'}`}>
-                          {item.growth && item.growth >= 0 ? '+' : ''}{item.growth}%
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TabsContent>
-              
-              <TabsContent value="discount" className="m-0">
-                <Table>
-                  <TableHeader className="bg-muted/30">
-                    <TableRow>
-                      <TableHead className="w-[120px] text-xs">
-                        {chartType === 'platform' ? 'Platform' : selectedDataType === 'brand' ? 'Brand' : 'Location'}
+                      <TableHead className="text-xs text-right">
+                        <Megaphone className="h-3 w-3 inline mr-1" />
+                        Ad Spend
                       </TableHead>
-                      <TableHead className="text-xs text-right">Orders</TableHead>
-                      <TableHead className="text-xs text-right">Discount %</TableHead>
-                      <TableHead className="text-xs text-right">Discount Amt</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {comparisonData.map((item, idx) => (
-                      <TableRow key={idx}>
-                        <TableCell className="font-medium text-xs">{item.name}</TableCell>
-                        <TableCell className="text-right text-xs">{item.orders}</TableCell>
-                        <TableCell className="text-right text-xs">{item.discount}%</TableCell>
+                    </>
+                  )}
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {comparisonData.map((item, idx) => (
+                  <TableRow key={idx}>
+                    <TableCell className="font-medium text-xs">{item.name}</TableCell>
+                    <TableCell className="text-right text-xs">{item.orders}</TableCell>
+                    <TableCell className="text-right text-xs">{item.previousOrders}</TableCell>
+                    <TableCell className={`text-right text-xs ${item.growth && item.growth >= 0 ? 'text-success' : 'text-destructive'}`}>
+                      {item.growth && item.growth >= 0 ? '+' : ''}{item.growth}%
+                    </TableCell>
+                    {showMarketingMetrics && (
+                      <>
                         <TableCell className="text-right text-xs">
-                          AED {Math.round(item.orders * 85.56 * (item.discount! / 100))}
+                          {item.discount}%
+                          <div className="text-[10px] text-muted-foreground">
+                            AED {Math.round(item.orders * 85.56 * (item.discount! / 100))}
+                          </div>
                         </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TabsContent>
-              
-              <TabsContent value="adspend" className="m-0">
-                <Table>
-                  <TableHeader className="bg-muted/30">
-                    <TableRow>
-                      <TableHead className="w-[120px] text-xs">
-                        {chartType === 'platform' ? 'Platform' : selectedDataType === 'brand' ? 'Brand' : 'Location'}
-                      </TableHead>
-                      <TableHead className="text-xs text-right">Orders</TableHead>
-                      <TableHead className="text-xs text-right">Ad Spend %</TableHead>
-                      <TableHead className="text-xs text-right">Ad Spend Amt</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {comparisonData.map((item, idx) => (
-                      <TableRow key={idx}>
-                        <TableCell className="font-medium text-xs">{item.name}</TableCell>
-                        <TableCell className="text-right text-xs">{item.orders}</TableCell>
-                        <TableCell className="text-right text-xs">{item.adSpend}%</TableCell>
                         <TableCell className="text-right text-xs">
-                          AED {Math.round(item.orders * 85.56 * (item.adSpend! / 100))}
+                          {item.adSpend}%
+                          <div className="text-[10px] text-muted-foreground">
+                            AED {Math.round(item.orders * 85.56 * (item.adSpend! / 100))}
+                          </div>
                         </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TabsContent>
-            </Tabs>
+                      </>
+                    )}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
             
             <div className="w-full px-4 py-2.5 bg-background/50 border-t border-border/30">
               <div className="flex flex-wrap gap-2 mt-2">
