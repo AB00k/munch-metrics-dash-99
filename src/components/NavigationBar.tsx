@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { Search, ChevronDown } from "lucide-react";
+import { Search, ChevronDown, Filter } from "lucide-react";
 import { Button } from "./ui/button";
 import {
   DropdownMenu,
@@ -22,94 +22,20 @@ const NavigationBar: React.FC = () => {
   const comparisonPeriods = ["Previous Period", "Same Period Last Year", "Custom"];
 
   return (
-    <div className="flex flex-col md:flex-row gap-3 py-3 items-center justify-between bg-secondary/10 rounded-lg px-4 my-4">
-      <p className="text-sm text-muted-foreground w-full md:w-auto mb-2 md:mb-0">
-        Hello Nikhil, here's your restaurant performance from March 1, 2024 to March 31, 2024
-      </p>
-      
-      <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm" className="gap-1 bg-background">
-              {selectedBrand}
-              <ChevronDown className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            {brands.map((brand) => (
-              <DropdownMenuItem 
-                key={brand} 
-                onClick={() => setSelectedBrand(brand)}
-              >
-                {brand}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-        
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm" className="gap-1 bg-background">
-              {selectedData}
-              <ChevronDown className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            {dataTypes.map((type) => (
-              <DropdownMenuItem 
-                key={type} 
-                onClick={() => setSelectedData(type)}
-              >
-                {type}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-        
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm" className="gap-1 bg-background">
-              {selectedTimeframe}
-              <ChevronDown className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            {timeframes.map((time) => (
-              <DropdownMenuItem 
-                key={time} 
-                onClick={() => setSelectedTimeframe(time)}
-              >
-                {time}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-        
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm" className="gap-1 bg-background">
-              {comparisonPeriod}
-              <ChevronDown className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            {comparisonPeriods.map((period) => (
-              <DropdownMenuItem 
-                key={period} 
-                onClick={() => setComparisonPeriod(period)}
-              >
-                {period}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-        
-        <Button variant="outline" size="sm" className="bg-background">
-          <Search className="h-4 w-4 text-primary" />
+    <div className="flex flex-col gap-4 my-6">
+      <div className="flex justify-between items-center">
+        <h2 className="text-xl font-bold text-gray-900">Performance Overview</h2>
+        <Button variant="outline" size="sm" className="gap-1 bg-white border-gray-200 text-gray-700 rounded-full">
+          <Filter className="h-4 w-4" />
+          <span>View All Running Campaigns</span>
         </Button>
       </div>
       
-      <div className="md:hidden w-full flex justify-center mt-2">
+      <p className="text-sm text-gray-500 mt-2 mb-4">
+        Hello Nikhil, here's your restaurant performance from March 1, 2024 to March 31, 2024
+      </p>
+      
+      <div className="flex md:hidden justify-center w-full mt-2">
         <ConnectedPlatforms />
       </div>
     </div>
