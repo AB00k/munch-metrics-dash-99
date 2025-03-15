@@ -13,13 +13,13 @@ const Index = () => {
   
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="container max-w-7xl mx-auto px-6">
+      <div className="container max-w-7xl mx-auto px-4 md:px-6">
         <Header />
         
         <NavigationBar />
         
-        <main className="py-6">
-          <div className="space-y-6">
+        <main className="py-4">
+          <div className="space-y-5">
             {/* Order Metrics */}
             <OrderMetrics 
               total={dashboardData.monthlyOrders.total}
@@ -29,7 +29,7 @@ const Index = () => {
             />
             
             {/* KPIs Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {topKpis.map((kpi, index) => (
                 <KpiCard
                   key={index}
@@ -46,7 +46,7 @@ const Index = () => {
             </div>
             
             {/* Distribution Charts */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <DistributionChart 
                 title="Orders by Platform" 
                 data={dashboardData.platforms}

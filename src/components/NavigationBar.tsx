@@ -22,16 +22,16 @@ const NavigationBar: React.FC = () => {
   const comparisonPeriods = ["Previous Period", "Same Period Last Year", "Custom"];
 
   return (
-    <div className="flex flex-col gap-4 my-6">
+    <div className="flex flex-col gap-2 my-4">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-bold text-gray-900">Performance Overview</h2>
-        <Button variant="outline" size="sm" className="gap-1 bg-white border-gray-200 text-gray-700 rounded-full">
+        <h2 className="text-lg font-semibold text-gray-800">Performance Overview</h2>
+        <Button variant="outline" size="sm" className="gap-1 bg-white border-gray-200 text-gray-700 rounded-md">
           <Filter className="h-4 w-4" />
           <span>View All Running Campaigns</span>
         </Button>
       </div>
       
-      <p className="text-sm text-gray-500 mt-2 mb-4">
+      <p className="text-sm text-gray-500 mt-1 mb-3">
         Hello Nikhil, here's your restaurant performance from March 1, 2024 to March 31, 2024
       </p>
       

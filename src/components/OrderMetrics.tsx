@@ -40,11 +40,11 @@ const OrderMetrics: React.FC<OrderMetricsProps> = ({
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-      <Card className="col-span-2 shadow-none border border-gray-100 bg-white">
-        <CardContent className="p-6">
+      <Card className="col-span-2 shadow-sm border border-gray-200 bg-white">
+        <CardContent className="p-5">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
-              <h2 className="text-lg font-bold text-gray-900">Monthly Ad Spend</h2>
+              <h2 className="text-lg font-semibold text-gray-800">Monthly Ad Spend</h2>
               <div className="text-xs text-gray-500">Total spent this month</div>
             </div>
             <div className="flex items-center gap-2">
@@ -53,7 +53,7 @@ const OrderMetrics: React.FC<OrderMetricsProps> = ({
           </div>
           
           <div className="flex items-center justify-between">
-            <div className="text-3xl font-bold">
+            <div className="text-2xl font-semibold">
               AED 51,250
             </div>
             <div className="flex items-center gap-2">
@@ -62,20 +62,20 @@ const OrderMetrics: React.FC<OrderMetricsProps> = ({
             </div>
           </div>
           
-          <div className="h-40 mt-6 text-center text-gray-500">
+          <div className="h-36 mt-6 text-center text-gray-500">
             [Chart visualization would go here]
           </div>
         </CardContent>
       </Card>
       
-      <Card className="shadow-none border border-gray-100 bg-white">
-        <CardContent className="p-6">
+      <Card className="shadow-sm border border-gray-200 bg-white">
+        <CardContent className="p-5">
           <div className="flex items-center gap-2 mb-4">
             <Info className="w-5 h-5 text-blue-500" />
-            <h3 className="text-lg font-bold text-gray-900">Budget Information</h3>
+            <h3 className="text-lg font-semibold text-gray-800">Budget Information</h3>
           </div>
           
-          <div className="space-y-6">
+          <div className="space-y-5">
             <div>
               <div className="flex justify-between items-center mb-2">
                 <div className="text-sm text-gray-500">Budget Utilization</div>
@@ -84,11 +84,11 @@ const OrderMetrics: React.FC<OrderMetricsProps> = ({
               <Progress 
                 value={64} 
                 className="h-2 bg-gray-100" 
-                indicatorClassName="bg-black" 
+                indicatorClassName="bg-purple-600" 
               />
             </div>
             
-            <div className="space-y-4">
+            <div className="space-y-3">
               <div className="flex justify-between">
                 <div className="text-sm text-gray-500">Total Budget</div>
                 <div className="text-sm font-semibold">AED 80,000</div>
