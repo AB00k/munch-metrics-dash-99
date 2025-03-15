@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Target, TrendingUp, Package, ArrowUpRight, ChevronRight, Banknote, Edit } from "lucide-react";
+import { Target, TrendingUp, Package, ArrowUpRight, ChevronRight, Banknote, Info } from "lucide-react";
 import AnimatedCounter from "./AnimatedCounter";
 import { Button } from "./ui/button";
 
@@ -20,12 +20,10 @@ const OrderMetrics: React.FC<OrderMetricsProps> = ({
   percentToTarget
 }) => {
   const [activeMetric, setActiveMetric] = useState<'orders' | 'revenue' | 'profit'>('orders');
-  const [isEditingTarget, setIsEditingTarget] = useState(false);
-  const [newTarget, setNewTarget] = useState(target.toString());
   
   // Dummy data for revenue and profit metrics
   const metricsData = {
-    orders: { total, projected, target, percentToTarget, icon: Package, label: "Monthly Orders" },
+    orders: { total, projected, target, percentToTarget, icon: Package, label: "Monthly Ad Spend" },
     revenue: { total: 124750, projected: 150000, target: 180000, percentToTarget: 69, icon: Banknote, label: "Monthly Revenue" },
     profit: { total: 42550, projected: 50000, target: 60000, percentToTarget: 71, icon: TrendingUp, label: "Monthly Profit" }
   };
@@ -38,119 +36,78 @@ const OrderMetrics: React.FC<OrderMetricsProps> = ({
     else setActiveMetric('orders');
   };
 
-  const handleSaveTarget = () => {
-    // In a real app, this would update the target in the backend
-    setIsEditingTarget(false);
-    // For demo purposes, we're not actually updating the target value
-  };
-
   const Icon = currentMetric.icon;
 
   return (
-    <Card className="animate-fade-in transition-all duration-300 rounded-xl bg-white border border-gray-100">
-      <CardContent className="p-6">
-        <div className="flex flex-col md:flex-row gap-8 items-center justify-between">
-          <div className="flex-1 w-full">
-            <div className="h-16 flex items-center gap-3">
-              <div className="bg-blue-500 p-3 rounded-full text-white">
-                <Icon className="w-5 h-5" />
-              </div>
-              <div className="flex-1">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-sm font-medium text-gray-500">{currentMetric.label}</h2>
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
-                    className="h-6 w-6" 
-                    onClick={handleNextMetric}
-                  >
-                    <ChevronRight className="h-4 w-4" />
-                  </Button>
-                </div>
-                <p className="text-3xl font-bold tracking-tight text-gray-900">
-                  <AnimatedCounter 
-                    value={currentMetric.total} 
-                    prefix={activeMetric !== 'orders' ? 'AED ' : ''} 
-                  />
-                </p>
-              </div>
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+      <Card className="col-span-2 shadow-sm border border-gray-200 bg-white">
+        <CardContent className="p-5">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <h2 className="text-lg font-semibold text-gray-800">Monthly Ad Spend</h2>
+              <div className="text-xs text-gray-500">Total spent this month</div>
             </div>
-            
-            <div className="mt-6 mb-2">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-xs text-gray-500">Progress to target</span>
-                <div className="flex items-center gap-1">
-                  <span className="text-xs font-medium">{currentMetric.percentToTarget}%</span>
-                  <ArrowUpRight className="w-3 h-3 text-gray-500" />
-                </div>
-              </div>
-              <Progress 
-                value={currentMetric.percentToTarget} 
-                className="h-2 bg-gray-100" 
-                indicatorClassName="bg-blue-500" 
-              />
+            <div className="flex items-center gap-2">
+              <div className="text-sm font-medium">Budget: AED 80,000</div>
             </div>
           </div>
           
-          <div className="grid grid-cols-2 gap-6 w-full md:w-auto">
-            <div className="flex flex-col items-center text-center p-4 bg-gray-50 rounded-lg border border-gray-100">
-              <div className="p-2 rounded-full bg-blue-100 mb-2">
-                <TrendingUp className="w-4 h-4 text-blue-500" />
-              </div>
-              <p className="text-xs text-gray-500 mb-1">Projected</p>
-              <p className="text-xl font-bold text-gray-900">
-                <AnimatedCounter 
-                  value={currentMetric.projected} 
-                  prefix={activeMetric !== 'orders' ? 'AED ' : ''} 
-                />
-              </p>
+          <div className="flex items-center justify-between">
+            <div className="text-2xl font-semibold">
+              AED 51,250
             </div>
-            
-            <div className="flex flex-col items-center text-center p-4 bg-gray-50 rounded-lg border border-gray-100 relative">
-              <div className="p-2 rounded-full bg-blue-100 mb-2">
-                <Target className="w-4 h-4 text-blue-500" />
-              </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="absolute top-1 right-1 h-6 w-6"
-                onClick={() => setIsEditingTarget(!isEditingTarget)}
-              >
-                <Edit className="h-3 w-3" />
-              </Button>
-              
-              <p className="text-xs text-gray-500 mb-1">Target</p>
-              
-              {isEditingTarget ? (
-                <div className="flex flex-col gap-1">
-                  <input
-                    type="number"
-                    value={newTarget}
-                    onChange={(e) => setNewTarget(e.target.value)}
-                    className="w-full text-sm p-1 border rounded bg-white"
-                  />
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="text-xs"
-                    onClick={handleSaveTarget}
-                  >
-                    Save
-                  </Button>
-                </div>
-              ) : (
-                <p className="text-xl font-bold text-gray-900">
-                  <AnimatedCounter 
-                    value={currentMetric.target} 
-                    prefix={activeMetric !== 'orders' ? 'AED ' : ''} 
-                  />
-                </p>
-              )}
+            <div className="flex items-center gap-2">
+              <div className="text-sm font-medium">Budget utilization</div>
+              <div className="text-lg font-semibold text-green-500">64%</div>
             </div>
           </div>
-        </div>
-      </CardContent>
-    </Card>
+          
+          <div className="h-36 mt-6 text-center text-gray-500">
+            [Chart visualization would go here]
+          </div>
+        </CardContent>
+      </Card>
+      
+      <Card className="shadow-sm border border-gray-200 bg-white">
+        <CardContent className="p-5">
+          <div className="flex items-center gap-2 mb-4">
+            <Info className="w-5 h-5 text-blue-500" />
+            <h3 className="text-lg font-semibold text-gray-800">Budget Information</h3>
+          </div>
+          
+          <div className="space-y-5">
+            <div>
+              <div className="flex justify-between items-center mb-2">
+                <div className="text-sm text-gray-500">Budget Utilization</div>
+                <div className="text-sm font-semibold">64%</div>
+              </div>
+              <Progress 
+                value={64} 
+                className="h-2 bg-gray-100" 
+                indicatorClassName="bg-purple-600" 
+              />
+            </div>
+            
+            <div className="space-y-3">
+              <div className="flex justify-between">
+                <div className="text-sm text-gray-500">Total Budget</div>
+                <div className="text-sm font-semibold">AED 80,000</div>
+              </div>
+              
+              <div className="flex justify-between">
+                <div className="text-sm text-gray-500">Spent</div>
+                <div className="text-sm font-semibold">AED 51,250</div>
+              </div>
+              
+              <div className="flex justify-between">
+                <div className="text-sm text-gray-500">Remaining Budget</div>
+                <div className="text-sm font-semibold">AED 28,750</div>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 

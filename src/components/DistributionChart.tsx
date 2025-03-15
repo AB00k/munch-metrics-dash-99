@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, BarChart3, Percent, Megaphone } from "lucide-react";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
@@ -23,25 +23,14 @@ interface DistributionChartProps {
   index: number;
 }
 
-// Updated colors for better visualization
-const PLATFORM_COLORS = {
-  'Website': '#0071e3', // Blue
-  'Mobile App': '#51B851', // Green (Careem)
-  'Food Delivery': '#FEF7CD', // Yellow (Noon)
-  'Phone': '#9b87f5', // Purple (Dine In)
-  'Talabat': '#FF5800', // Orange (Talabat)
-  'Deliveroo': '#00CCBC', // Light blue (Deliveroo)
-  'Downtown': '#0071e3',
-  'Marina': '#51B851',
-  'Business Bay': '#FF5800',
-  'JBR': '#9b87f5'
-};
+// Updated colors for the platforms
+const COLORS = ['#F97316', '#51B851', '#FEF7CD', '#0EA5E9', '#9b87f5'];
 
 const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
     const data = payload[0].payload;
     return (
-      <div className="bg-white p-2 rounded-md shadow-md border border-gray-100">
+      <div className="bg-background/90 backdrop-blur-sm p-2 rounded-md shadow-md border border-border">
         <p className="font-medium">{data.name}</p>
         <p className="text-sm">{data.orders} orders ({data.percentage}%)</p>
       </div>
@@ -65,18 +54,14 @@ const DistributionChart: React.FC<DistributionChartProps> = ({ title, data, inde
     adSpend: item.adSpend || parseFloat((Math.random() * 20 + 5).toFixed(1))
   }));
   
-  const getColor = (name: string) => {
-    return PLATFORM_COLORS[name as keyof typeof PLATFORM_COLORS] || '#0071e3';
-  };
-
   return (
-    <Card className={`animate-blur-in ${delayClass} transition-all duration-300 hover:shadow-sm bg-white rounded-xl border border-gray-100`}>
+    <Card className={`animate-blur-in ${delayClass} transition-all duration-300 hover:shadow-glass h-full bg-background`}>
       <CardHeader className="pb-2 flex flex-row items-center justify-between">
         <CardTitle className="text-lg font-medium">{title}</CardTitle>
         <Button 
           variant="ghost" 
           size="sm" 
-          className="h-8 gap-1 text-xs font-normal text-gray-500 hover:text-gray-700"
+          className="h-8 gap-1 text-xs font-normal text-muted-foreground hover:text-foreground hover:bg-secondary/30"
           onClick={() => setShowDetailedView(!showDetailedView)}
         >
           {showDetailedView ? "Chart View" : "Detailed View"}
@@ -86,48 +71,47 @@ const DistributionChart: React.FC<DistributionChartProps> = ({ title, data, inde
       <CardContent>
         {!showDetailedView ? (
           <>
-            <div className="h-[250px] flex justify-center items-center">
+            <div className="h-[240px]">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
                     data={data}
                     cx="50%"
                     cy="50%"
-                    innerRadius={70}
-                    outerRadius={90}
+                    innerRadius={60}
+                    outerRadius={80}
                     paddingAngle={2}
                     dataKey="orders"
                     labelLine={false}
-                    stroke="#fff"
-                    strokeWidth={2}
                   >
-                    {data.map((entry) => (
+                    {data.map((entry, index) => (
                       <Cell 
-                        key={`cell-${entry.name}`} 
-                        fill={getColor(entry.name)} 
+                        key={`cell-${index}`} 
+                        fill={COLORS[index % COLORS.length]} 
                         className="transition-opacity duration-300 hover:opacity-80"
                       />
                     ))}
                   </Pie>
                   <Tooltip content={<CustomTooltip />} />
-                  <Legend 
-                    layout="horizontal" 
-                    verticalAlign="bottom" 
-                    align="center"
-                    formatter={(value, entry, index) => (
-                      <span className="text-xs font-medium">
-                        {value} ({data[index]?.percentage}%)
-                      </span>
-                    )}
-                  />
                 </PieChart>
               </ResponsiveContainer>
             </div>
+            <div className="grid grid-cols-2 gap-2 mt-4">
+              {data.map((item, idx) => (
+                <div key={idx} className="flex items-center gap-2">
+                  <div 
+                    className="w-3 h-3 rounded-sm" 
+                    style={{ backgroundColor: COLORS[idx % COLORS.length] }}
+                  />
+                  <span className="text-xs font-medium">{item.name} ({item.percentage}%)</span>
+                </div>
+              ))}
+            </div>
           </>
         ) : (
-          <div className="overflow-hidden rounded-md border shadow-sm border-gray-100">
+          <div className="overflow-hidden rounded-md border shadow-sm border-border/50">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-3 bg-gray-50 border-b p-0">
+              <TabsList className="grid w-full grid-cols-3 bg-background/80 border-b p-0">
                 <TabsTrigger value="orders" className="text-xs py-1.5">Orders</TabsTrigger>
                 <TabsTrigger value="discount" className="text-xs py-1.5">
                   <Percent className="h-3 w-3 mr-1" />
@@ -141,7 +125,7 @@ const DistributionChart: React.FC<DistributionChartProps> = ({ title, data, inde
               
               <TabsContent value="orders" className="m-0">
                 <Table>
-                  <TableHeader className="bg-gray-50">
+                  <TableHeader className="bg-muted/30">
                     <TableRow>
                       <TableHead className="w-[120px] text-xs">Platform</TableHead>
                       <TableHead className="text-xs text-right">Mar 1-Mar 31</TableHead>
@@ -155,7 +139,7 @@ const DistributionChart: React.FC<DistributionChartProps> = ({ title, data, inde
                         <TableCell className="font-medium text-xs">{item.name}</TableCell>
                         <TableCell className="text-right text-xs">{item.orders}</TableCell>
                         <TableCell className="text-right text-xs">{item.previousOrders}</TableCell>
-                        <TableCell className={`text-right text-xs ${item.growth && item.growth >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                        <TableCell className={`text-right text-xs ${item.growth && item.growth >= 0 ? 'text-success' : 'text-destructive'}`}>
                           {item.growth && item.growth >= 0 ? '+' : ''}{item.growth}%
                         </TableCell>
                       </TableRow>
@@ -166,7 +150,7 @@ const DistributionChart: React.FC<DistributionChartProps> = ({ title, data, inde
               
               <TabsContent value="discount" className="m-0">
                 <Table>
-                  <TableHeader className="bg-gray-50">
+                  <TableHeader className="bg-muted/30">
                     <TableRow>
                       <TableHead className="w-[120px] text-xs">{title.includes("Platform") ? "Platform" : "Location"}</TableHead>
                       <TableHead className="text-xs text-right">Orders</TableHead>
@@ -191,7 +175,7 @@ const DistributionChart: React.FC<DistributionChartProps> = ({ title, data, inde
               
               <TabsContent value="adspend" className="m-0">
                 <Table>
-                  <TableHeader className="bg-gray-50">
+                  <TableHeader className="bg-muted/30">
                     <TableRow>
                       <TableHead className="w-[120px] text-xs">{title.includes("Platform") ? "Platform" : "Location"}</TableHead>
                       <TableHead className="text-xs text-right">Orders</TableHead>
@@ -214,6 +198,23 @@ const DistributionChart: React.FC<DistributionChartProps> = ({ title, data, inde
                 </Table>
               </TabsContent>
             </Tabs>
+            
+            <div className="w-full px-4 py-2.5 bg-background/50 border-t border-border/30">
+              <div className="flex flex-wrap gap-2 mt-2">
+                {comparisonData.map((item, idx) => (
+                  <div 
+                    key={idx}
+                    className="h-6 rounded-full text-xs flex items-center px-2.5 text-white"
+                    style={{ 
+                      width: `${Math.max(item.percentage * 0.8, 10)}%`,
+                      backgroundColor: COLORS[idx % COLORS.length] 
+                    }}
+                  >
+                    {item.percentage}%
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </CardContent>

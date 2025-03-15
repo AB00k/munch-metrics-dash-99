@@ -58,22 +58,43 @@ const KpiCard: React.FC<KpiCardProps> = ({
   const delayClass = `delay-${(index % 5) * 100}`;
 
   return (
-    <Card className={`overflow-hidden animate-scale-up ${delayClass} transition-all duration-300 hover:shadow-sm bg-white border border-gray-100 rounded-xl`}>
-      <CardContent className="p-4">
-        <div className="flex items-center justify-between mb-1">
-          <span className="text-sm text-gray-500 font-normal">
-            {title}
-          </span>
+    <Card className={`overflow-hidden animate-scale-up ${delayClass} transition-all duration-300 shadow-sm bg-white border border-gray-200 hover:border-gray-300`}>
+      <CardContent className="p-5">
+        <div className="flex items-center justify-between mb-4">
           <div className="flex items-center">
-            <div className={`text-xs ${isPositive ? 'text-green-500' : 'text-red-500'} font-medium flex items-center gap-0.5`}>
-              <TrendIcon className="w-3 h-3" />
-              <span>{isPositive ? '+' : ''}{change}%</span>
+            <div className={`w-10 h-10 rounded-md flex items-center justify-center ${
+              index % 8 === 0 ? 'bg-blue-100' :
+              index % 8 === 1 ? 'bg-orange-100' :
+              index % 8 === 2 ? 'bg-green-100' :
+              index % 8 === 3 ? 'bg-purple-100' :
+              index % 8 === 4 ? 'bg-yellow-100' :
+              index % 8 === 5 ? 'bg-red-100' :
+              index % 8 === 6 ? 'bg-indigo-100' :
+              'bg-teal-100'
+            }`}>
+              <Icon className={`w-5 h-5 ${
+                index % 8 === 0 ? 'text-blue-500' :
+                index % 8 === 1 ? 'text-orange-500' :
+                index % 8 === 2 ? 'text-green-500' :
+                index % 8 === 3 ? 'text-purple-500' :
+                index % 8 === 4 ? 'text-yellow-500' :
+                index % 8 === 5 ? 'text-red-500' :
+                index % 8 === 6 ? 'text-indigo-500' :
+                'text-teal-500'
+              }`} />
             </div>
+          </div>
+          
+          <div className={`flex items-center ${isPositive ? 'text-green-500' : 'text-red-500'}`}>
+            <TrendIcon className="w-4 h-4 mr-1" />
+            <span className="text-sm font-medium">
+              {isPositive ? '+' : ''}{change}%
+            </span>
           </div>
         </div>
         
-        <div className="mt-1">
-          <div className="text-2xl font-bold text-gray-900">
+        <div className="mt-2">
+          <div className="text-2xl font-semibold mt-1">
             <AnimatedCounter 
               value={value} 
               prefix={prefix} 
@@ -81,10 +102,9 @@ const KpiCard: React.FC<KpiCardProps> = ({
               decimal={decimal}
             />
           </div>
-          
-          <div className="absolute top-4 right-4 bg-blue-500 text-white p-2 rounded-full">
-            <Icon className="w-4 h-4" />
-          </div>
+          <span className="text-sm font-medium text-gray-500">
+            {title}
+          </span>
         </div>
       </CardContent>
     </Card>
