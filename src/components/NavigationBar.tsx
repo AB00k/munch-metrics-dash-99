@@ -8,7 +8,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import ConnectedPlatforms from "./ConnectedPlatforms";
 
 const NavigationBar: React.FC = () => {
   const [selectedBrand, setSelectedBrand] = useState("All Brands");
@@ -22,12 +21,8 @@ const NavigationBar: React.FC = () => {
   const comparisonPeriods = ["Previous Period", "Same Period Last Year", "Custom"];
 
   return (
-    <div className="flex flex-col md:flex-row gap-3 py-3 items-center justify-between bg-secondary/10 rounded-lg px-4 my-4">
-      <p className="text-sm text-muted-foreground w-full md:w-auto mb-2 md:mb-0">
-        Hello Nikhil, here's your restaurant performance from March 1, 2024 to March 31, 2024
-      </p>
-      
-      <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
+    <div className="flex flex-col md:flex-row gap-3 py-4 items-center justify-between bg-secondary/10 rounded-lg px-4 my-4">
+      <div className="flex flex-wrap gap-2">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="sm" className="gap-1 bg-background">
@@ -65,7 +60,9 @@ const NavigationBar: React.FC = () => {
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
-        
+      </div>
+      
+      <div className="flex flex-wrap gap-2">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="sm" className="gap-1 bg-background">
@@ -107,10 +104,6 @@ const NavigationBar: React.FC = () => {
         <Button variant="outline" size="sm" className="bg-background">
           <Search className="h-4 w-4 text-primary" />
         </Button>
-      </div>
-      
-      <div className="md:hidden w-full flex justify-center mt-2">
-        <ConnectedPlatforms />
       </div>
     </div>
   );

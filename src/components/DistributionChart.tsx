@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
@@ -23,8 +22,7 @@ interface DistributionChartProps {
   index: number;
 }
 
-// Updated colors for the platforms
-const COLORS = ['#F97316', '#51B851', '#FEF7CD', '#0EA5E9', '#9b87f5'];
+const COLORS = ['#555555', '#FF5800', '#51B851', '#00CCBC', '#8B5CF6', '#DDDDDD'];
 
 const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {

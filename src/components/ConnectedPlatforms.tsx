@@ -12,6 +12,7 @@ const ConnectedPlatforms: React.FC = () => {
 
   return (
     <div className="flex items-center gap-2">
+      <span className="text-sm text-muted-foreground mr-2">Connected Platforms:</span>
       <div className="flex space-x-2">
         {platforms.map((platform, index) => (
           <div
