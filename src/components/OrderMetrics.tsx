@@ -47,17 +47,17 @@ const OrderMetrics: React.FC<OrderMetricsProps> = ({
   const Icon = currentMetric.icon;
 
   return (
-    <Card className="animate-fade-in transition-all duration-300 hover:shadow-subtle overflow-hidden border border-border/50">
+    <Card className="animate-fade-in transition-all duration-300 rounded-xl bg-white border border-gray-100">
       <CardContent className="p-6">
         <div className="flex flex-col md:flex-row gap-8 items-center justify-between">
           <div className="flex-1 w-full">
             <div className="h-16 flex items-center gap-3">
-              <div className="bg-secondary/80 p-3 rounded-full">
-                <Icon className="w-6 h-6 text-foreground" />
+              <div className="bg-blue-500 p-3 rounded-full text-white">
+                <Icon className="w-5 h-5" />
               </div>
               <div className="flex-1">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-sm font-medium text-muted-foreground">{currentMetric.label}</h2>
+                  <h2 className="text-sm font-medium text-gray-500">{currentMetric.label}</h2>
                   <Button 
                     variant="ghost" 
                     size="icon" 
@@ -67,7 +67,7 @@ const OrderMetrics: React.FC<OrderMetricsProps> = ({
                     <ChevronRight className="h-4 w-4" />
                   </Button>
                 </div>
-                <p className="text-3xl font-semibold tracking-tight">
+                <p className="text-3xl font-bold tracking-tight text-gray-900">
                   <AnimatedCounter 
                     value={currentMetric.total} 
                     prefix={activeMetric !== 'orders' ? 'AED ' : ''} 
@@ -78,27 +78,27 @@ const OrderMetrics: React.FC<OrderMetricsProps> = ({
             
             <div className="mt-6 mb-2">
               <div className="flex justify-between items-center mb-2">
-                <span className="text-xs text-muted-foreground">Progress to target</span>
+                <span className="text-xs text-gray-500">Progress to target</span>
                 <div className="flex items-center gap-1">
                   <span className="text-xs font-medium">{currentMetric.percentToTarget}%</span>
-                  <ArrowUpRight className="w-3 h-3 text-foreground" />
+                  <ArrowUpRight className="w-3 h-3 text-gray-500" />
                 </div>
               </div>
               <Progress 
                 value={currentMetric.percentToTarget} 
-                className="h-2.5 bg-secondary/50" 
-                indicatorClassName="bg-black" 
+                className="h-2 bg-gray-100" 
+                indicatorClassName="bg-blue-500" 
               />
             </div>
           </div>
           
           <div className="grid grid-cols-2 gap-6 w-full md:w-auto">
-            <div className="flex flex-col items-center text-center p-4 bg-secondary/10 rounded-lg border border-border/30 shadow-subtle">
-              <div className="p-2 rounded-full bg-secondary/50 mb-2">
-                <TrendingUp className="w-4 h-4 text-foreground" />
+            <div className="flex flex-col items-center text-center p-4 bg-gray-50 rounded-lg border border-gray-100">
+              <div className="p-2 rounded-full bg-blue-100 mb-2">
+                <TrendingUp className="w-4 h-4 text-blue-500" />
               </div>
-              <p className="text-xs text-muted-foreground mb-1">Projected</p>
-              <p className="text-xl font-semibold">
+              <p className="text-xs text-gray-500 mb-1">Projected</p>
+              <p className="text-xl font-bold text-gray-900">
                 <AnimatedCounter 
                   value={currentMetric.projected} 
                   prefix={activeMetric !== 'orders' ? 'AED ' : ''} 
@@ -106,9 +106,9 @@ const OrderMetrics: React.FC<OrderMetricsProps> = ({
               </p>
             </div>
             
-            <div className="flex flex-col items-center text-center p-4 bg-secondary/10 rounded-lg border border-border/30 shadow-subtle relative">
-              <div className="p-2 rounded-full bg-secondary/50 mb-2">
-                <Target className="w-4 h-4 text-foreground" />
+            <div className="flex flex-col items-center text-center p-4 bg-gray-50 rounded-lg border border-gray-100 relative">
+              <div className="p-2 rounded-full bg-blue-100 mb-2">
+                <Target className="w-4 h-4 text-blue-500" />
               </div>
               <Button
                 variant="ghost"
@@ -119,7 +119,7 @@ const OrderMetrics: React.FC<OrderMetricsProps> = ({
                 <Edit className="h-3 w-3" />
               </Button>
               
-              <p className="text-xs text-muted-foreground mb-1">Target</p>
+              <p className="text-xs text-gray-500 mb-1">Target</p>
               
               {isEditingTarget ? (
                 <div className="flex flex-col gap-1">
@@ -127,7 +127,7 @@ const OrderMetrics: React.FC<OrderMetricsProps> = ({
                     type="number"
                     value={newTarget}
                     onChange={(e) => setNewTarget(e.target.value)}
-                    className="w-full text-sm p-1 border rounded bg-background"
+                    className="w-full text-sm p-1 border rounded bg-white"
                   />
                   <Button 
                     variant="outline" 
@@ -139,7 +139,7 @@ const OrderMetrics: React.FC<OrderMetricsProps> = ({
                   </Button>
                 </div>
               ) : (
-                <p className="text-xl font-semibold">
+                <p className="text-xl font-bold text-gray-900">
                   <AnimatedCounter 
                     value={currentMetric.target} 
                     prefix={activeMetric !== 'orders' ? 'AED ' : ''} 

@@ -58,19 +58,22 @@ const KpiCard: React.FC<KpiCardProps> = ({
   const delayClass = `delay-${(index % 5) * 100}`;
 
   return (
-    <Card className={`overflow-hidden animate-scale-up ${delayClass} transition-all duration-300 hover:shadow-subtle bg-white border border-border/50`}>
-      <CardContent className="p-6">
-        <div className="flex items-center justify-between mb-3">
-          <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+    <Card className={`overflow-hidden animate-scale-up ${delayClass} transition-all duration-300 hover:shadow-sm bg-white border border-gray-100 rounded-xl`}>
+      <CardContent className="p-4">
+        <div className="flex items-center justify-between mb-1">
+          <span className="text-sm text-gray-500 font-normal">
             {title}
           </span>
-          <div className="p-1.5 rounded-full bg-secondary/30">
-            <Icon className="w-3.5 h-3.5 text-foreground" />
+          <div className="flex items-center">
+            <div className={`text-xs ${isPositive ? 'text-green-500' : 'text-red-500'} font-medium flex items-center gap-0.5`}>
+              <TrendIcon className="w-3 h-3" />
+              <span>{isPositive ? '+' : ''}{change}%</span>
+            </div>
           </div>
         </div>
         
-        <div className="flex items-baseline justify-between mt-2">
-          <div className="text-2xl font-semibold">
+        <div className="mt-1">
+          <div className="text-2xl font-bold text-gray-900">
             <AnimatedCounter 
               value={value} 
               prefix={prefix} 
@@ -79,11 +82,8 @@ const KpiCard: React.FC<KpiCardProps> = ({
             />
           </div>
           
-          <div className={`flex items-center ${isPositive ? 'text-success' : 'text-destructive'} px-2 py-0.5 rounded-full ${isPositive ? 'bg-success/10' : 'bg-destructive/10'}`}>
-            <TrendIcon className="w-3 h-3 mr-1" />
-            <span className="text-xs font-medium">
-              {isPositive ? '+' : ''}{change}%
-            </span>
+          <div className="absolute top-4 right-4 bg-blue-500 text-white p-2 rounded-full">
+            <Icon className="w-4 h-4" />
           </div>
         </div>
       </CardContent>

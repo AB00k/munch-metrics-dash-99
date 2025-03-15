@@ -8,15 +8,18 @@ import DistributionChart from "@/components/DistributionChart";
 import { dashboardData } from "@/lib/data";
 
 const Index = () => {
+  // We'll only show 8 KPIs instead of all 10
+  const topKpis = dashboardData.kpis.slice(0, 8);
+  
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gray-50">
       <div className="container max-w-7xl mx-auto px-4 sm:px-6">
         <Header />
         
         <NavigationBar />
         
         <main className="py-6">
-          <div className="space-y-8">
+          <div className="space-y-6">
             {/* Order Metrics */}
             <OrderMetrics 
               total={dashboardData.monthlyOrders.total}
@@ -31,8 +34,8 @@ const Index = () => {
                 <span className="inline-block w-2 h-2 rounded-full bg-primary mr-2"></span>
                 Key Performance Indicators
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-                {dashboardData.kpis.map((kpi, index) => (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {topKpis.map((kpi, index) => (
                   <KpiCard
                     key={index}
                     title={kpi.title}
